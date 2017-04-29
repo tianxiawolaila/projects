@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title>注册与登录</title>
+	<link rel="stylesheet" type="text/css" th:href="@{css/denlu.css}">
+	<link rel="stylesheet" type="text/css" th:href="@{CSS/reset.css}">
+	<script type="text/javascript" th:src="@{/js/jquery.min.js}"></script>
+	<script type="text/javascript" th:src="@{/js/zhuce.js}"></script>
+</head>
+<body>
+	<div class="content">
+		<div class="logo">
+			<img src="img/logo.jpg" alt="">
+		</div>
+		<div class="form">
+			<a href="index.html" id="a4">Return</a>
+			<img src="img/d3.gif" alt="">
+			<form action="/toLoginIn.html" id="form1" method="put">
+				<div id="btn">
+					<div class="on1" onclick="tab(0)"><span>登 录</span></div>
+					<div class="off2" onclick="tab(1)"><span>注 册</span></div>
+				</div>
+				<div id="ao">
+					<span th:if="${message != null}" th:text="${message}"></span>
+				<ul class="d1">
+				<li><span>用户名：</span>
+				<input type="text" class="a1" id="name" name="username"></li>
+				<li><span>密&nbsp码：</span>
+				<input type="password" val="password" class="a1" id="password" name="password"></li>
+				<li style="display: none"><span>确认密码：</span>
+				<input id="li4"  disabled="true"  type="password" class="a1" name="password2"></li>
+                    <li style="display: none"><span>昵&nbsp称：</span>
+                        <input id="li3" disabled="true" type="text" class="a1" name="nickname"/>
+                    </li>
+                    <li  style="display: none"><span>邮&nbsp箱：</span>
+				<input id="li5"  disabled="true" type="text" class="a1" name="email"></li>
+					<button id="a3">登录</button>
+				</ul>
+				</div>
+			</form>
+		</div>
+	</div>
+</body>
+</html>

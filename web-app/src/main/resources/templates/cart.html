@@ -1,0 +1,105 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head><meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
+    <title>首页</title>
+    <link rel="stylesheet" type="text/css" href="css/index.css">
+    <link rel="stylesheet" type="text/css" href="css/reset.css">
+    <script type="text/javascript" src="js/index.js"></script>
+    <title>购物车管理</title>
+    <link th:href="@{css/cart.css}" rel="stylesheet" type="text/css">
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            var sumMoney = 0 ;
+            $(".prods_money").each(function () {
+                sumMoney = this.innerText - 0 + sumMoney;
+            });
+            $("#span_2").text(sumMoney);
+        })
+
+        function changeBuyNum(pid,oldBuyNum,obj){
+
+            if(!/^[1-9][0-9]*$/.test(obj.value)){
+                alert("请您输入正整数！");
+                obj.value= oldBuyNum;
+                return;
+            }
+            window.location.href = "/toupdateNum?id="+pid
+                +"&buyNum="+obj.value;
+        }
+        function delNum(pid,obj){
+
+            //var ipObj = document.getElementById(pid);
+            var inputObj = obj.parentNode.getElementsByTagName("input")[0];
+            var newBuyNum = inputObj.value-1;
+            if(newBuyNum>0){
+                window.location.href="/toupdateNum?id="+pid+"&buyNum="+newBuyNum;
+            }else{
+                if(window.confirm("您确定删除吗？")){
+                    window.location.href="/todeletItem?id="+pid;
+                }
+            }
+        }
+        function addNum(pid,obj){
+
+            var inputObj = obj.parentNode.getElementsByTagName("input")[0];
+            //var newBuyNum = inputObj.value-0+1;
+            var newBuyNum = parseInt(inputObj.value)+1;
+            window.location.href="/toupdateNum?id="+pid+"&buyNum="+newBuyNum;
+        }
+        function deleteItem(pid){
+
+            if(confirm("您确定删除吗？")){
+                window.location.href = "/todeleteItem?id="+pid;
+            }
+        }
+    </script>
+</head>
+<body>
+<div th:include="baseHead"></div>
+<div class="warp">
+    <!-- 标题信息 -->
+    <div id="title">
+        <input name="allC" type="checkbox" value="" onclick=""/>
+        <span id="title_checkall_text">全选</span>
+        <span id="title_name">商品</span>
+        <span id="title_price">单价（元）</span>
+        <span id="title_buynum">数量</span>
+        <span id="title_money">小计（元）</span>
+        <span id="title_del">操作</span>
+    </div>
+    <!-- 购物信息 -->
+        <div id="prods" th:each="cart,cartStat:${carts}">
+            <input name="prodC" type="checkbox" value="" onclick=""/>
+            <img th:src="${cart.key.urlImage.get(0)}" width="90" height="90" />
+            <span id="prods_name" th:text="${cart.key.goodName}"></span>
+            <span id="prods_price" th:text="${cart.key.price}"></span>
+            <span id="prods_buynum">
+				<a href="javascript:void(0)" id="delNum" th:onclick="'javascript:delNum('+${cart.key.id}+',this)'" >-</a>
+				<input id="buyNumInp" type="text" th:value="${cart.value}" th:onblur="'javascript:changeBuyNum('+${cart.key.id}+','+${cart.value }+',this)'">
+				<a href="javascript:void(0)" id="addNum" th:onclick="'javascript:addNum('+${cart.key.id}+',this)'">+</a>
+			</span>
+            <span id="prods_money" class="prods_money" th:text="${cart.key.price*cart.value}"></span>
+            <span id="prods_del"><a href="javascript:void(0)" th:onclick="'javascript:deleteItem('+${cart.key.id}+')'">删除</a></span>
+
+        </div>
+    </c:forEach>
+    <!-- 总计条 -->
+    <div id="total">
+        <div id="total_1">
+            <input name="allC" type="checkbox" value=""/>
+            <span>全选</span>
+            <a id="del_a" href="#">删除选中的商品</a>
+            <span id="span_1">总价：</span>
+            ￥<span id="span_2"></span>
+        </div>
+        <div id="total_2">
+            <a id="goto_order" href="#">去结算</a>
+        </div>
+    </div>
+</div>
+</body>
+</html>

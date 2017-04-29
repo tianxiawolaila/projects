@@ -1,0 +1,12 @@
+
+/* 样式重置 ：css reset*/
+a,body,ul,dt,dl,dd,p,h1,h2,h3,h4,h5,h6{margin: 0;padding: 0;}
+img{border:none; dispaly:block;}
+ul,dt{list-style: none;}
+a{text-decoration: none;
+  color: #333;
+}
+li,ul{list-style: none}
+/*  清除浮动：clearfix */
+.clearfix::after{content: "";display: block;width: 0;height: 0;clear: both;
+                 visibility: hidden;zoom:1;}
